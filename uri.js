@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Dominic Mitchell
+ * Copyright © 2007 Dominic Mitchell <dom [at] happygiraffe.net>
  * 
  * All rights reserved.
  * 
