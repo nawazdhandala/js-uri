@@ -4,56 +4,36 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-  <title>Test for MyURI</title>
-  <script type="text/javascript" src="uri.js"></script>
+  <script src="lib/JSAN.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript" src="../lib/uri.js"></script>
   <script type="text/javascript" charset="utf-8">
-    // TODO: Replace this lot with jsUnit.
-    function assertNotNull(obj, msg) {
-      if (obj == null) {
-        var err = (msg ? msg + ": " : "");
-        err += "obj is null";
-        console.log(err);
-      }
-    }
-    function assertEqual(expected, actual, msg) {
-      if (expected != actual) {
-        var err = "not ok ";
-        if (msg)
-          err += msg + ": ";
-        err += "<" + expected + ">";
-        err += " does not equal ";
-        err += "<" + actual + ">";
-        console.log(err);
-      }
-      else if (msg) {
-        console.log("ok " + msg);
-      }
-    }
-    function assertUri(str, scheme, authority, path, query, fragment) {
+    // An additional test helper.
+    function uri_ok(str, scheme, authority, path, query, fragment) {
       var u = new URI(str);
-      assertNotNull(u, "URI from '" + str + "'");
-      assertEqual(scheme,    u.scheme,    "Scheme of '" + str + "'");
-      assertEqual(authority, u.authority, "Authority of '" + str + "'");
-      assertEqual(path,      u.path,      "Path of '" + str + "'");
-      assertEqual(query,     u.query,     "Query of '" + str + "'");
-      assertEqual(fragment,  u.fragment,  "Fragment of '" + str + "'");
+      ok(u, "URI from '" + str + "'");
+      is(scheme,    u.scheme,    "Scheme of '" + str + "'");
+      is(authority, u.authority, "Authority of '" + str + "'");
+      is(path,      u.path,      "Path of '" + str + "'");
+      is(query,     u.query,     "Query of '" + str + "'");
+      is(fragment,  u.fragment,  "Fragment of '" + str + "'");
     }
   </script>
 </head>
 
 <body>
-  <h1>Test for MyURI</h1>
-  <script type="text/javascript" charset="utf-8">
-    assertUri("http://www.example.com/foo/bar?page=1#baz",
+  <h1>Tests for URI.js</h1>
+  <pre id="test"><script type="text/javascript">
+    JSAN.use('Test.More');
+    plan({ tests:79 });
+    uri_ok("http://www.example.com/foo/bar?page=1#baz",
                "http", "www.example.com", "/foo/bar", "page=1", "baz");
-    assertUri("?page=1", null, null, null, "page=1");
-    assertUri("#foo", null, null, null, null, "foo");
-    assertUri("//example.com/foo/bar", null, "example.com", "/foo/bar");
-    assertUri("http:", "http");
-    assertUri("");
+    uri_ok("?page=1", null, null, null, "page=1");
+    uri_ok("#foo", null, null, null, null, "foo");
+    uri_ok("//example.com/foo/bar", null, "example.com", "/foo/bar");
+    uri_ok("http:", "http");
+    uri_ok("");
     var uri = new URI("http://www.example.com/foo/bar?page=1#baz");
-    assertEqual("http://www.example.com/foo/bar?page=1#baz", uri.toString());
+    is("http://www.example.com/foo/bar?page=1#baz", uri.toString(), "toString()");
     var base = new URI("http://a/b/c/d;p?q");
     var resolve_tests = [
       // Normal examples.
@@ -115,8 +95,8 @@
       var t = resolve_tests[i];
       var rel = new URI(t[0]);
       var abs = rel.resolve(base);
-      assertEqual(t[1], abs.toString(), "Resolve <"+t[0]+"> to <"+t[1]+">");
+      is(t[1], abs.toString(), "Resolve <"+t[0]+"> to <"+t[1]+">");
     };
-  </script>
+  </script></pre>
 </body>
 </html>
