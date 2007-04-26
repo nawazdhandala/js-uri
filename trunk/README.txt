@@ -1,7 +1,8 @@
 js-uri <http://code.google.com/p/js-uri/>
 =========================================
 
-This is a small JavaScript library for manipulating URIs.  It parses, recreates and resolves them.  For example:
+This is a small JavaScript library for manipulating URIs. It parses,
+recreates and resolves them. For example:
 
   var some_uri = new URI("http://www.example.com/foo/bar");
 
@@ -11,7 +12,21 @@ This is a small JavaScript library for manipulating URIs.  It parses, recreates 
   var blah      = new URI("blah");
   var blah_full = blah.resolve(some_uri);
   alert(blah_full);         // http://www.example.com/foo/blah
+  
+To use this library take a copy of lib/URI.js and include it in your page.
+e.g.
 
-It is based around code in RFC3986, "Uniform Resource Identifier (URI): Generic Syntax".
+  <script type="text/javascript" src="URI.js"></script>
+
+It is based around code in RFC3986, "Uniform Resource Identifier (URI):
+Generic Syntax".  There is a copy in the doc directory.
+
+If you wish to run the test suite, open "tests/index.html" in a browser. For
+some reason, this appears to only work in mozilla-based browsers (firefox,
+camino, etc).
+
+If you have any queries about the library, please drop me an email:
+
+  Dominic Mitchell <dom [at] happygiraffe.net>
 
 @(#) $Id$
