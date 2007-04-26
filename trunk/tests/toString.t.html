@@ -5,23 +5,16 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <script src="lib/JSAN.js" type="text/javascript" charset="utf-8"></script>
-	<title>All Tests</title>
-	
+  <script type="text/javascript" src="../lib/uri.js"></script>
 </head>
 
 <body>
-
-  <script type="text/javascript" charset="utf-8">
-    JSAN.use('Test.Harness');
-    JSAN.use('Test.Harness.Browser');
-    var t = new Test.Harness.Browser();
-    
-    t.runTests(
-      "parse.t.html",
-      "toString.t.html",
-      "resolve.t.html"
-    );
-  </script>
+<pre><script type="text/javascript" charset="utf-8">
+  JSAN.use('Test.More');
+  plan({ tests:1 });
+  var uri = new URI("http://www.example.com/foo/bar?page=1#baz");
+  is("http://www.example.com/foo/bar?page=1#baz", uri.toString(), "toString()");
+</script></pre>
 
 </body>
 </html>
