@@ -25,6 +25,8 @@ If you wish to run the test suite, open "tests/index.html" in a browser. For
 some reason, this appears to only work in mozilla-based browsers (firefox,
 camino, etc).
 
+This library is BSD-licenced.  See LICENCE.txt for details.
+
 If you have any queries about the library, please drop me an email:
 
   Dominic Mitchell <dom [at] happygiraffe.net>
