@@ -36,7 +36,9 @@
     
     // Look at the Query String in more detail.
     var u = new URI("?foo=bar&bar=baz");
-    isDeeply( [['foo', 'bar'], ['bar', 'baz']], u.queryForm(), 'queryForm()');
+    isDeeply( [['foo', 'bar'], ['bar', 'baz']],
+              u.getQueryForm(),
+              'getQueryForm()');
 </script></pre>
 </body>
 </html>
