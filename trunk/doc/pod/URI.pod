@@ -1,0 +1,134 @@
+=head1 NAME
+
+URI - An object for Uniform Resource Identifiers
+
+=head1 SYNOPSIS
+
+    var some_uri = new URI("http://www.example.com/foo/bar");
+
+    alert(some_uri.authority);  // → www.example.com
+    alert(some_uri);            // → http://www.example.com/foo/bar
+
+    var blah      = new URI("blah");
+    var blah_full = blah.resolve(some_uri);
+    alert(blah_full);           // → http://www.example.com/foo/blah
+
+=head1 DESCRIPTION
+
+This object assists in parsing and manipulating URI (Uniform Resource
+Identifier) objects.  This also covers URLs (Uniform Resource Locators).
+
+=head1 INTERFACE
+
+=head2 Constructor
+
+=over 4
+
+=item new URI( String )
+
+Creates a new URI object by parsing I<String>. That could be either an
+absolute URL like C<http://www.example.com/foo> or an relative URI like
+C</foo?page=2>.
+
+=back
+
+=head2 Public instance methods
+
+=over 4
+
+=item getQueryForm()
+
+Returns an array of pairs, each pair representing a parameter from the query
+string. e.g. If the query string was "foo=bar&bar=baz", the return value would
+be:
+
+  [
+    ['foo', 'bar'],
+    ['bar', 'baz']
+  ]
+
+=item toString()
+
+Returns a string representation of the URI.
+
+=item setQueryForm( PARAMS )
+
+Replace the current query with a new one based on I<PARAMS>. I<PARAMS> should
+be an array of arrays in the same form as returned by getQueryForm().
+
+=back
+
+=head2 Public properties
+
+These may all be read from or assigned to directly.
+
+=over 4
+
+=item scheme
+
+e.g. “http”
+
+=item authority
+
+e.g. “www.example.com:82”
+
+=item path
+
+e.g. “/foo/bar”
+
+=item query
+
+e.g. “page=2&sort=alpha”
+
+=item fragment
+
+e.g. “section1”
+
+=back
+
+=head1 SEE ALSO
+
+The js-uri home page: L<http://code.google.com/p/js-uri/>
+
+The Perl implementation: L<http://search.cpan.org/dist/URI/URI.pm>
+
+RFC3986 (Uniform Resource Identifier (URI): Generic Syntax):
+L<http://tools.ietf.org/html/rfc3986>
+
+=head1 AUTHOR
+
+Dominic Mitchell E<lt>dom [at] happygiraffe.netE<gt>
+
+=head1 COPYRIGHT
+
+Copyright © 2007 Dominic Mitchell
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+Redistributions of source code must retain the above copyright notice,
+this list of conditions and the following disclaimer.
+Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution.
+Neither the name of the Dominic Mitchell nor the names of its contributors
+may be used to endorse or promote products derived from this software
+without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+=cut
+
+# @(#) $Id$
