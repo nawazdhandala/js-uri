@@ -82,6 +82,14 @@ URI.prototype.getQueryForm = function() {
     return params;
 };
 
+URI.prototype.setQueryForm = function(params) {
+    var pairs = [];
+    for (var i=0; i < params.length; i++) {
+        pairs.push(params[i][0] + "=" + params[i][1]);
+    }
+    this.query = pairs.join("&");
+};
+
 // Introduce a new scope to define some private helper functions.
 (function () {
     // RFC3986 §5.2.3 (Merge Paths)
