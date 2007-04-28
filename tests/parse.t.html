@@ -23,7 +23,7 @@
 <body>
   <pre id="test"><script type="text/javascript">
     JSAN.use('Test.More');
-    plan({ tests: 38 });
+    plan({ tests: 36 });
     
     // Test that we pull apart components correctly.
     uri_ok("http://www.example.com/foo/bar?page=1#baz",
@@ -34,13 +34,6 @@
     uri_ok("http:", "http");
     uri_ok("");
     
-    // Look at the Query String in more detail.
-    var u = new URI("?foo=bar&bar=baz");
-    isDeeply( [['foo', 'bar'], ['bar', 'baz']],
-              u.getQueryForm(),
-              'getQueryForm()');
-    u.setQueryForm([['baz', 'bar'], ['bar', 'foo']]);
-    is( u.toString(), '?baz=bar&bar=foo', 'setQueryForm() with an array');
 </script></pre>
 </body>
 </html>

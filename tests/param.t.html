@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <script src="lib/JSAN.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript" src="../lib/URI.js"></script>
+</head>
+
+<body>
+  <pre id="test"><script type="text/javascript">
+    JSAN.use('Test.More');
+    plan({ tests: 11 });
+
+    // an ampersand.  This is done this way to prevent any browser
+    // weirdness with embedded javascript inside a html document
+    var sep = String.fromCharCode(38);
+
+    ////////////////////// parsing query string /////////////////////////
+
+    // build a url
+    var query = "foo=xyz" + sep + "bar=baz" + sep + "bar=buz" + sep + "capt=James+T+Kirk"; 
+    var u = new URI("http://2shortplanks.com/wombat?"+ query + "#aardvark");
+
+    // check all the normal stuff working
+    is("http",              u.scheme,    "Scheme");
+    is("2shortplanks.com",  u.authority, "Authority");
+    is("/wombat",           u.path,      "Path");
+    is(query,               u.query,     "Query");
+    is("aardvark",          u.fragment,  "Fragment");
+
+    // check the parameters
+    // TODO: Replace this with isDeeply?
+    var q = u.parseQuery();
+    var p = q.params;
+    is(p["foo"][0],      "xyz",          "params check foo 0");
+    is(p["foo"].length,  1,              "params check foo length");
+    is(p["bar"][0],      "baz",          "params check bar 0");
+    is(p["bar"][1],      "buz",          "params check bar 1");
+    is(p["bar"].length,  "2",            "params check bar length");
+    is(p["capt"][0],     "James T Kirk", "params check capt 0");
+    is(p["capt"].length, 1,              "params check capt length");
+
+    var c = 0;
+    for (key in p)
+        if (p.hasOwnProperty(key))  // argh! Object.prototype
+            c++;
+    is(c, 3, "params check no more keys");
+
+    // getting parameters
+    is(q.getParam("foo"),  "xyz",          "getParam('foo')");
+    is(q.getParam("bar"),  "baz",          "getParam('baz')");
+    is(q.getParam("capt"), "James T Kirk", "getParam('baz')");
+
+    ///////////////// building ////////////
+
+    is(q.toString(), "bar=baz&bar=buz&capt=James+T+Kirk&foo=xyz", "join amp");
+    q.seperator = ";";
+    is(q.toString(), "bar=baz;bar=buz;capt=James+T+Kirk;foo=xyz", "join semic");
+
+</script></pre>
+</body>
+</html>
