@@ -74,7 +74,7 @@ URI.prototype.toString = function () {
     return str;
 };
 
-URI.prototype.queryForm = function() {
+URI.prototype.getQueryForm = function() {
     var params = this.query.split(/&/);
     for (var i=0; i < params.length; i++) {
         params[i] = params[i].split(/\=/, 2);
