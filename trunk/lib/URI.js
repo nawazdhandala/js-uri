@@ -40,6 +40,10 @@
  * @(#) $Id$
  */
 
+// Globals we introduce.
+var URI;
+var URIQuery;
+
 // Introduce a new scope to define some private helper functions.
 (function () {
 
@@ -87,9 +91,11 @@
     // give me an ordered list of keys of this object
     function hashkeys(obj) {
         var list = [];
-        for (var key in obj)
-            if (obj.hasOwnProperty(key))
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key)) {
                 list.push(key);
+            }
+        }
         return list.sort();
     }
 
@@ -119,7 +125,7 @@
         this.path      = result[3] || null;
         this.query     = result[4] || null;
         this.fragment  = result[5] || null;
-    }
+    };
 
     // Restore the URI to it's stringy glory.
     URI.prototype.toString = function () {
@@ -189,7 +195,7 @@
 
     URI.prototype.parseQuery = function () {
         return URIQuery.fromString(this.query, this.querySeperator);
-    }
+    };
 
     //// URIQuery CLASS /////
 
@@ -200,11 +206,12 @@
 
     URIQuery.fromString = function (sourceString, seperator) {
         var result = new URIQuery();
-        if (seperator)
+        if (seperator) {
             result.seperator = seperator;
+        }
         result.addStringParams(sourceString);
         return result;
-    }
+    };
 
     // I couldn't find a spec for this, so I looked in URI::_query.pm (part of URI.pm)
     // and it said:
@@ -216,29 +223,35 @@
     
     URIQuery.prototype.addStringParams = function (sourceString) {
         var kvp = sourceString.split(this.seperator);
+        var list, key, value;
         for (var i=0; i<kvp.length; i++) {
             // var [key,value] = kvp.split("=", 2) only works on >= JS 1.7
-            var list  = kvp[i].split("=", 2);
-            var key   = uriUnescape(list[0].replace(/\+/g, " "));
-            var value = uriUnescape(list[1].replace(/\+/g, " "));
-            if (!this.params.hasOwnProperty(key))
+            list  = kvp[i].split("=", 2);
+            key   = uriUnescape(list[0].replace(/\+/g, " "));
+            value = uriUnescape(list[1].replace(/\+/g, " "));
+            if (!this.params.hasOwnProperty(key)) {
                 this.params[key] = [];
+            }
             this.params[key].push(value);
         }
     };
 
     URIQuery.prototype.getParam = function(key) {
-        if (this.params.hasOwnProperty(key))
+        if (this.params.hasOwnProperty(key)) {
             return this.params[key][0];
+        }
         return null;
     };
 
     URIQuery.prototype.toString = function() {
         var kvp = [];
         var keys = hashkeys(this.params);
-        for (var ik=0; ik<keys.length; ik++)
-            for (var ip=0; ip<this.params[keys[ik]].length; ip++)
+        var ik, ip;
+        for (ik=0; ik<keys.length; ik++) {
+            for (ip=0; ip<this.params[keys[ik]].length; ip++) {
                 kvp.push(keys[ik].replace(/ /g, "+") + "=" + this.params[keys[ik]][ip].replace(/ /g, "+"));
+            }
+        }
         return kvp.join(this.seperator);
     };
 
