@@ -11,11 +11,11 @@
     function uri_ok(str, scheme, authority, path, query, fragment) {
       var u = new URI(str);
       ok(u, "URI from '" + str + "'");
-      is(scheme,    u.scheme,    "Scheme of '" + str + "'");
-      is(authority, u.authority, "Authority of '" + str + "'");
-      is(path,      u.path,      "Path of '" + str + "'");
-      is(query,     u.query,     "Query of '" + str + "'");
-      is(fragment,  u.fragment,  "Fragment of '" + str + "'");
+      is(scheme,    u.getScheme(),    "Scheme of '" + str + "'");
+      is(authority, u.getAuthority(), "Authority of '" + str + "'");
+      is(path,      u.getPath(),      "Path of '" + str + "'");
+      is(query,     u.getQuery(),     "Query of '" + str + "'");
+      is(fragment,  u.getFragment(),  "Fragment of '" + str + "'");
     }
   </script>
 </head>
