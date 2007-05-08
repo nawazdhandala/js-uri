@@ -56,7 +56,7 @@ var URIQuery;
             return "/" + rel_path;
         }
         else {
-            return base.path.match(dirname)[0] + rel_path;
+            return base.getPath().match(dirname)[0] + rel_path;
         }
     }
 
@@ -120,30 +120,44 @@ var URIQuery;
         // Based on the regex in RFC2396 Appendix B.
         var parser = /^(?:([^:\/?\#]+):)?(?:\/\/([^\/?\#]*))?([^?\#]*)(?:\?([^\#]*))?(?:\#(.*))?/;
         var result = str.match(parser);
-        this.scheme    = result[1] || null;
-        this.authority = result[2] || null;
-        this.path      = result[3] || null;
-        this.query     = result[4] || null;
-        this.fragment  = result[5] || null;
+        
+        // Keep the results in private variables.
+        var scheme    = result[1] || null;
+        var authority = result[2] || null;
+        var path      = result[3] || null;
+        var query     = result[4] || null;
+        var fragment  = result[5] || null;
+        
+        // Set up accessors.
+        this.getAuthority = function()             { return authority };
+        this.getFragment  = function()             { return fragment };
+        this.getPath      = function()             { return path };
+        this.getQuery     = function()             { return query };
+        this.getScheme    = function()             { return scheme };
+        this.setAuthority = function(newAuthority) { authority = newAuthority };
+        this.setFragment  = function(newFragment)  { fragment  = newFragment };
+        this.setPath      = function(newPath)      { path      = newPath };
+        this.setQuery     = function(newQuery)     { query     = newQuery };
+        this.setScheme    = function(newScheme)    { scheme    = newScheme };
     };
 
     // Restore the URI to it's stringy glory.
     URI.prototype.toString = function () {
         var str = "";
-        if (this.scheme) {
-            str += this.scheme + ":";
+        if (this.getScheme()) {
+            str += this.getScheme() + ":";
         }
-        if (this.authority) {
-            str += "//" + this.authority;
+        if (this.getAuthority()) {
+            str += "//" + this.getAuthority();
         }
-        if (this.path) {
-            str += this.path;
+        if (this.getPath()) {
+            str += this.getPath();
         }
-        if (this.query) {
-            str += "?" + this.query;
+        if (this.getQuery()) {
+            str += "?" + this.getQuery();
         }
-        if (this.fragment) {
-            str += "#" + this.fragment;
+        if (this.getFragment()) {
+            str += "#" + this.getFragment();
         }
         return str;
     };
@@ -151,50 +165,50 @@ var URIQuery;
     // RFC3986 §5.2.2. Transform References;
     URI.prototype.resolve = function (base) {
         var target = new URI();
-        if (this.scheme) {
-            target.scheme    = this.scheme;
-            target.authority = this.authority;
-            target.path      = remove_dot_segments(this.path);
-            target.query     = this.query;
+        if (this.getScheme()) {
+            target.setScheme(this.getScheme());
+            target.setAuthority(this.getAuthority());
+            target.setPath(remove_dot_segments(this.getPath()));
+            target.setQuery(this.getQuery());
         }
         else {
-            if (this.authority) {
-                target.authority = this.authority;
-                target.path      = remove_dot_segments(this.path);
-                target.query     = this.query;
+            if (this.getAuthority()) {
+                target.setAuthority(this.getAuthority());
+                target.setPath(remove_dot_segments(this.getPath()));
+                target.setQuery(this.getQuery());
             }        
             else {
                 // XXX Original spec says "if defined and empty"…;
-                if (!this.path) {
-                    target.path = base.path;
-                    if (this.query) {
-                        target.query = this.query;
+                if (!this.getPath()) {
+                    target.setPath(base.getPath());
+                    if (this.getQuery()) {
+                        target.setQuery(this.getQuery());
                     }
                     else {
-                        target.query = base.query;
+                        target.setQuery(base.getQuery());
                     }
                 }
                 else {
-                    if (this.path.charAt(0) === '/') {
-                        target.path = remove_dot_segments(this.path);
+                    if (this.getPath().charAt(0) === '/') {
+                        target.setPath(remove_dot_segments(this.getPath()));
                     } else {
-                        target.path = merge(base, this.path);
-                        target.path = remove_dot_segments(target.path);
+                        target.setPath(merge(base, this.getPath()));
+                        target.setPath(remove_dot_segments(target.getPath()));
                     }
-                    target.query = this.query;
+                    target.setQuery(this.getQuery());
                 }
-                target.authority = base.authority;
+                target.setAuthority(base.getAuthority());
             }
-            target.scheme = base.scheme;
+            target.setScheme(base.getScheme());
         }
 
-        target.fragment = this.fragment;
+        target.setFragment(this.getFragment());
 
         return target;
     };
 
     URI.prototype.parseQuery = function () {
-        return URIQuery.fromString(this.query, this.querySeperator);
+        return URIQuery.fromString(this.getQuery(), this.querySeperator);
     };
 
     //// URIQuery CLASS /////

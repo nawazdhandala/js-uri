@@ -6,8 +6,8 @@ URI - An object for Uniform Resource Identifiers
 
     var some_uri = new URI("http://www.example.com/foo/bar");
 
-    alert(some_uri.authority);  // → www.example.com
-    alert(some_uri);            // → http://www.example.com/foo/bar
+    alert(some_uri.getAuthority()); // → www.example.com
+    alert(some_uri);                // → http://www.example.com/foo/bar
 
     var blah      = new URI("blah");
     var blah_full = blah.resolve(some_uri);
@@ -58,29 +58,37 @@ be an array of arrays in the same form as returned by getQueryForm().
 
 =back
 
-=head2 Public properties
-
-These may all be read from or assigned to directly.
+=head2 Public Accessors
 
 =over 4
 
-=item scheme
+=item getScheme ( )
+
+=item setScheme ( newScheme )
 
 e.g. “http”
 
-=item authority
+=item getAuthority ( )
+
+=item setAuthority ( newAuthority )
 
 e.g. “www.example.com:82”
 
-=item path
+=item getPath ( )
+
+=item setPath ( newPath )
 
 e.g. “/foo/bar”
 
-=item query
+=item getQuery ( )
+
+=item setQuery ( newQuery )
 
 e.g. “page=2&sort=alpha”
 
-=item fragment
+=item getFragment ( )
+
+=item setFragment ( newFragment )
 
 e.g. “section1”
 

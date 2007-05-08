@@ -24,11 +24,11 @@
     var u = new URI("http://2shortplanks.com/wombat?"+ query + "#aardvark");
 
     // check all the normal stuff working
-    is("http",              u.scheme,    "Scheme");
-    is("2shortplanks.com",  u.authority, "Authority");
-    is("/wombat",           u.path,      "Path");
-    is(query,               u.query,     "Query");
-    is("aardvark",          u.fragment,  "Fragment");
+    is("http",              u.getScheme(),    "Scheme");
+    is("2shortplanks.com",  u.getAuthority(), "Authority");
+    is("/wombat",           u.getPath(),      "Path");
+    is(query,               u.getQuery(),     "Query");
+    is("aardvark",          u.getFragment(),  "Fragment");
 
     // check the parameters
     // TODO: Replace this with isDeeply?
