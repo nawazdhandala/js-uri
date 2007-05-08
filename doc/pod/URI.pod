@@ -1,3 +1,5 @@
+=encoding utf8
+
 =head1 NAME
 
 URI - An object for Uniform Resource Identifiers
@@ -24,7 +26,7 @@ Identifier) objects.  This also covers URLs (Uniform Resource Locators).
 
 =over 4
 
-=item new URI( String )
+=item new URI ( String )
 
 Creates a new URI object by parsing I<String>. That could be either an
 absolute URL like C<http://www.example.com/foo> or an relative URI like
@@ -36,25 +38,24 @@ C</foo?page=2>.
 
 =over 4
 
-=item getQueryForm()
+=item parseQuery ( )
 
-Returns an array of pairs, each pair representing a parameter from the query
-string. e.g. If the query string was "foo=bar&bar=baz", the return value would
-be:
+Returns a new L</URIQuery> object representing the query string as a series of
+parameters.
 
-  [
-    ['foo', 'bar'],
-    ['bar', 'baz']
-  ]
+=item resolve ( base )
 
-=item toString()
+Resolve this URI relative to I<base>. Returns a new URI object. Usually,
+I<base> will be a fully-qualified URI containing a scheme. e.g.
+
+  var rel  = new URI("blah.html");
+  var base = new URI("http://example.com/hello/world.html");
+  var abs  = rel.resolve(base);
+  alert(abs); // → http://example.com/hello/blah.html
+
+=item toString ( )
 
 Returns a string representation of the URI.
-
-=item setQueryForm( PARAMS )
-
-Replace the current query with a new one based on I<PARAMS>. I<PARAMS> should
-be an array of arrays in the same form as returned by getQueryForm().
 
 =back
 
@@ -94,6 +95,40 @@ e.g. “section1”
 
 =back
 
+=head2 URIQuery
+
+This is an internal object used to represent an URI query string as a hash
+(dictionary of parameters).
+
+=over 4
+
+=item addStringParams ( String )
+
+Parse I<String> as a query string (e.g. C<foo=bar&bar=baz>) and append all the
+values into the current URIQuery object.
+
+=item getParam ( name )
+
+Returns the value of the first parameter with I<name>.
+
+=item params
+
+This property is an object containing all values of a parameter. If you parse
+the query string C<foo=bar&foo=baz>, then I<params> will look like this:
+
+  {
+      foo: ['bar', 'baz']
+  }
+
+  // e.g.  Pull out the second foo parameter.
+  q.params.foo[1];  // → 'baz'
+
+=item toString()
+
+Turn this URIQuery object back into a string.
+
+=back
+
 =head1 SEE ALSO
 
 The js-uri home page: L<http://code.google.com/p/js-uri/>
@@ -116,14 +151,26 @@ All rights reserved.
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 
+=over 4
+
+=item *
+
 Redistributions of source code must retain the above copyright notice,
 this list of conditions and the following disclaimer.
+
+=item *
+
 Redistributions in binary form must reproduce the above copyright notice,
 this list of conditions and the following disclaimer in the documentation
 and/or other materials provided with the distribution.
+
+=item *
+
 Neither the name of the Dominic Mitchell nor the names of its contributors
 may be used to endorse or promote products derived from this software
 without specific prior written permission.
+
+=back
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
