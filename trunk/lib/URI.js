@@ -101,11 +101,11 @@ var URIQuery;
 
     // TODO: Make these do something
     function uriEscape(source) {
-      return source;
+        return source;
     }
 
     function uriUnescape(source) {
-      return source;
+        return source;
     }
 
 
@@ -129,16 +129,36 @@ var URIQuery;
         var fragment  = result[5] || null;
         
         // Set up accessors.
-        this.getAuthority = function()             { return authority };
-        this.getFragment  = function()             { return fragment };
-        this.getPath      = function()             { return path };
-        this.getQuery     = function()             { return query };
-        this.getScheme    = function()             { return scheme };
-        this.setAuthority = function(newAuthority) { authority = newAuthority };
-        this.setFragment  = function(newFragment)  { fragment  = newFragment };
-        this.setPath      = function(newPath)      { path      = newPath };
-        this.setQuery     = function(newQuery)     { query     = newQuery };
-        this.setScheme    = function(newScheme)    { scheme    = newScheme };
+        this.getScheme = function () {
+            return scheme;
+        };
+        this.setScheme = function (newScheme) {
+            scheme = newScheme;
+        };
+        this.getAuthority = function () {
+            return authority;
+        };
+        this.setAuthority = function (newAuthority) {
+            authority = newAuthority;
+        };
+        this.getPath = function () {
+            return path;
+        };
+        this.setPath = function (newPath) {
+            path = newPath;
+        };
+        this.getQuery = function () {
+            return query;
+        };
+        this.setQuery = function (newQuery) {
+            query = newQuery;
+        };
+        this.getFragment = function () {
+            return fragment;
+        };
+        this.setFragment = function (newFragment) {
+            fragment = newFragment;
+        };
     };
 
     // Restore the URI to it's stringy glory.
@@ -238,7 +258,7 @@ var URIQuery;
     URIQuery.prototype.addStringParams = function (sourceString) {
         var kvp = sourceString.split(this.seperator);
         var list, key, value;
-        for (var i=0; i<kvp.length; i++) {
+        for (var i = 0; i < kvp.length; i++) {
             // var [key,value] = kvp.split("=", 2) only works on >= JS 1.7
             list  = kvp[i].split("=", 2);
             key   = uriUnescape(list[0].replace(/\+/g, " "));
@@ -250,19 +270,19 @@ var URIQuery;
         }
     };
 
-    URIQuery.prototype.getParam = function(key) {
+    URIQuery.prototype.getParam = function (key) {
         if (this.params.hasOwnProperty(key)) {
             return this.params[key][0];
         }
         return null;
     };
 
-    URIQuery.prototype.toString = function() {
+    URIQuery.prototype.toString = function () {
         var kvp = [];
         var keys = hashkeys(this.params);
         var ik, ip;
-        for (ik=0; ik<keys.length; ik++) {
-            for (ip=0; ip<this.params[keys[ik]].length; ip++) {
+        for (ik = 0; ik < keys.length; ik++) {
+            for (ip = 0; ip < this.params[keys[ik]].length; ip++) {
                 kvp.push(keys[ik].replace(/ /g, "+") + "=" + this.params[keys[ik]][ip].replace(/ /g, "+"));
             }
         }
